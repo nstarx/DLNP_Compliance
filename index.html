@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NStarX Platform - Compliance Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 16px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .status-not-certified {
+            background: #feb2b2;
+            color: #742a2a;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .framework-list {
+            list-style: none;
+        }
+        
+        .framework-list li {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f7fafc;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .framework-list li:hover {
+            background: #edf2f7;
+        }
+        
+        .framework-list li strong {
+            color: #2d3748;
+        }
+        
+        .framework-list li span {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .phase-timeline {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .phase-timeline h2 {
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-item.completed::before {
+            background: #48bb78;
+        }
+        
+        .timeline-item.in-progress::before {
+            background: #ed8936;
+        }
+        
+        .timeline-item h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-item .duration {
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-item ul {
+            list-style: none;
+        }
+        
+        .timeline-item ul li {
+            color: #4a5568;
+            font-size: 14px;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .timeline-item ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+        }
+        
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .requirement-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .requirement-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .requirement-card ul {
+            list-style: none;
+        }
+        
+        .requirement-card ul li {
+            color: #4a5568;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .requirement-card ul li:last-child {
+            border-bottom: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .label {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .glossary-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .glossary-section h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        .glossary-section h2::after {
+            content: '▼';
+            position: absolute;
+            right: 20px;
+            transition: transform 0.3s ease;
+            font-size: 18px;
+            color: #667eea;
+        }
+        
+        .glossary-section.collapsed h2::after {
+            transform: rotate(-90deg);
+        }
+        
+        .glossary-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+        
+        .glossary-section.collapsed .glossary-content {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .glossary-item {
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .glossary-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+        
+        .glossary-term {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .glossary-definition {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NStarX Platform – Compliance Roadmap</h1>
+            <p>Comprehensive compliance strategy for enterprise-grade security and regulatory adherence</p>
+            <span class="status-badge status-not-certified">Not Yet Certified - Roadmap In Progress</span>
+        </div>
+        
+        <div class="stats-grid" id="stats-grid"></div>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>Target Frameworks</h2>
+                <ul class="framework-list" id="frameworks-list"></ul>
+            </div>
+            
+            <div class="card">
+                <h2>Key Stakeholders</h2>
+                <ul class="framework-list" id="stakeholders-list"></ul>
+            </div>
+        </div>
+        
+        <div class="phase-timeline">
+            <h2>Implementation Phases</h2>
+            <div class="timeline" id="timeline"></div>
+        </div>
+        
+        <div class="phase-timeline">
+            <h2>Compliance Requirements</h2>
+            <div class="requirements-grid" id="requirements-grid"></div>
+        </div>
+        
+        <div class="glossary-section" id="glossary-section">
+            <h2 onclick="toggleGlossary()">Compliance Glossary</h2>
+            <div class="glossary-content">
+                <div class="glossary-grid" id="glossary-grid"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let complianceData = {};
+        
+        async function loadComplianceData() {
+            try {
+                const response = await fetch('./compliance-data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                complianceData = await response.json();
+                console.log('Compliance Data loaded successfully:', complianceData);
+                initializeDashboard();
+            } catch (error) {
+                console.error('Error loading compliance data:', error);
+                document.getElementById('stats-grid').innerHTML = '<div class="stat-card"><div class="label">Error loading data. Please refresh the page.</div></div>';
+            }
+        }
+        
+        function initializeDashboard() {
+            renderStatistics();
+            renderFrameworks();
+            renderStakeholders();
+            renderTimeline();
+            renderRequirements();
+            renderGlossary();
+        }
+        
+        function renderStatistics() {
+            const statsGrid = document.getElementById('stats-grid');
+            statsGrid.innerHTML = '';
+            complianceData.statistics.forEach(stat => {
+                const statCard = document.createElement('div');
+                statCard.className = 'stat-card';
+                statCard.innerHTML = `
+                    <div class="number">${stat.value}</div>
+                    <div class="label">${stat.label}</div>
+                `;
+                statsGrid.appendChild(statCard);
+            });
+        }
+        
+        function renderFrameworks() {
+            const frameworksList = document.getElementById('frameworks-list');
+            frameworksList.innerHTML = '';
+            complianceData.frameworks.forEach(framework => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${framework.name}</strong><br>
+                    <span>${framework.description}</span>
+                `;
+                frameworksList.appendChild(li);
+            });
+        }
+        
+        function renderStakeholders() {
+            const stakeholdersList = document.getElementById('stakeholders-list');
+            stakeholdersList.innerHTML = '';
+            complianceData.stakeholders.forEach(stakeholder => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${stakeholder.role}</strong><br>
+                    <span>${stakeholder.responsibility}</span>
+                `;
+                stakeholdersList.appendChild(li);
+            });
+        }
+        
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+            complianceData.phases.forEach(phase => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = `timeline-item ${phase.status}`;
+                
+                const tasksList = phase.tasks.map(task => `<li>${task}</li>`).join('');
+                
+                timelineItem.innerHTML = `
+                    <h3>${phase.name}</h3>
+                    <div class="duration">${phase.duration}</div>
+                    <ul>${tasksList}</ul>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                `;
+                timeline.appendChild(timelineItem);
+            });
+        }
+        
+        function renderRequirements() {
+            const requirementsGrid = document.getElementById('requirements-grid');
+            requirementsGrid.innerHTML = '';
+            complianceData.requirements.forEach(requirement => {
+                const requirementCard = document.createElement('div');
+                requirementCard.className = 'requirement-card';
+                
+                const itemsList = requirement.items.map(item => `<li>${item}</li>`).join('');
+                
+                requirementCard.innerHTML = `
+                    <h3>${requirement.category}</h3>
+                    <ul>${itemsList}</ul>
+                `;
+                requirementsGrid.appendChild(requirementCard);
+            });
+        }
+        
+        function renderGlossary() {
+            const glossaryGrid = document.getElementById('glossary-grid');
+            glossaryGrid.innerHTML = '';
+            complianceData.glossary.forEach(item => {
+                const glossaryItem = document.createElement('div');
+                glossaryItem.className = 'glossary-item';
+                glossaryItem.innerHTML = `
+                    <div class="glossary-term">${item.term}</div>
+                    <div class="glossary-definition">${item.definition}</div>
+                `;
+                glossaryGrid.appendChild(glossaryItem);
+            });
+        }
+        
+        function toggleGlossary() {
+            const glossarySection = document.getElementById('glossary-section');
+            glossarySection.classList.toggle('collapsed');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComplianceData();
+        });
+    </script>
+</body>
+</html>

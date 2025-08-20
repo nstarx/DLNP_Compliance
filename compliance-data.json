@@ -1,0 +1,284 @@
+{
+    "metadata": {
+        "platform": "NStarX Platform",
+        "status": "Not Yet Certified",
+        "lastUpdated": "2024-01-20",
+        "version": "1.0.0"
+    },
+    "statistics": [
+        {"label": "Target Frameworks", "value": 6},
+        {"label": "Total Requirements", "value": 45},
+        {"label": "Phases", "value": 3},
+        {"label": "Timeline (months)", "value": 12},
+        {"label": "Completed Tasks", "value": 0},
+        {"label": "In Progress", "value": 0}
+    ],
+    "frameworks": [
+        {
+            "name": "GDPR",
+            "description": "EU data protection - Mandatory for any data subjects in the EU",
+            "priority": "high",
+            "status": "planned"
+        },
+        {
+            "name": "HIPAA",
+            "description": "US healthcare - If handling Protected Health Information (PHI)",
+            "priority": "high",
+            "status": "planned"
+        },
+        {
+            "name": "PCI DSS",
+            "description": "Payment security - If processing or storing payment card data",
+            "priority": "medium",
+            "status": "planned"
+        },
+        {
+            "name": "ISO/IEC 27001",
+            "description": "Global information security management standard",
+            "priority": "high",
+            "status": "planned"
+        },
+        {
+            "name": "SOC 2 Type II",
+            "description": "Assurance for enterprise customers",
+            "priority": "medium",
+            "status": "planned"
+        },
+        {
+            "name": "FedRAMP / DoD SRG",
+            "description": "If targeting US government workloads",
+            "priority": "low",
+            "status": "future"
+        }
+    ],
+    "phases": [
+        {
+            "id": "phase1",
+            "name": "Phase 1 – Foundation",
+            "duration": "0–3 months",
+            "status": "not-started",
+            "tasks": [
+                "Define compliance scope (GDPR + HIPAA first)",
+                "Enable encryption in transit & at rest",
+                "Implement IAM, RBAC, and audit logging",
+                "Harden Kubernetes baseline (CIS benchmark)",
+                "Document security policies & governance"
+            ]
+        },
+        {
+            "id": "phase2",
+            "name": "Phase 2 – Maturity",
+            "duration": "3–6 months",
+            "status": "not-started",
+            "tasks": [
+                "Integrate monitoring and SIEM",
+                "Deploy secrets management solution",
+                "Implement incident response & disaster recovery plans",
+                "Conduct vulnerability scans & remediation",
+                "Train employees on compliance basics"
+            ]
+        },
+        {
+            "id": "phase3",
+            "name": "Phase 3 – Certification",
+            "duration": "6–12 months",
+            "status": "not-started",
+            "tasks": [
+                "Conduct third-party penetration testing",
+                "Engage auditors for ISO 27001 / SOC 2 readiness",
+                "Formalize GDPR and HIPAA compliance evidence",
+                "Prepare PCI DSS audit (if payment data involved)",
+                "Publish compliance whitepaper for customers"
+            ]
+        }
+    ],
+    "requirements": [
+        {
+            "category": "Security & Privacy Controls",
+            "items": [
+                "Encryption in transit (TLS 1.2+ everywhere)",
+                "Encryption at rest (AES-256, FIPS 140-2/3)",
+                "Key management via KMS/HSM",
+                "Secrets management (Vault, AWS Secrets Manager)",
+                "Zero-trust identity model with RBAC, MFA"
+            ]
+        },
+        {
+            "category": "Monitoring & Logging",
+            "items": [
+                "Centralized logging of system, API, and data access",
+                "Retention policies based on compliance frameworks",
+                "Real-time monitoring & alerting (SIEM integration)",
+                "Tamper-evident audit trails"
+            ]
+        },
+        {
+            "category": "Infrastructure Hardening",
+            "items": [
+                "Kubernetes CIS Benchmarks compliance",
+                "Network segmentation and policies",
+                "Pod Security Standards / Admission Controls",
+                "Vulnerability management for containers",
+                "Regular patching and CVE monitoring"
+            ]
+        },
+        {
+            "category": "Policies & Documentation",
+            "items": [
+                "Security policies (access control, acceptable use)",
+                "Data classification & handling procedures",
+                "Risk assessment methodology (ISO 27005 or NIST)",
+                "Employee security training & awareness"
+            ]
+        },
+        {
+            "category": "Data Protection & Privacy",
+            "items": [
+                "Data residency and sovereignty controls",
+                "GDPR: subject rights, consent, deletion workflows",
+                "HIPAA: PHI access restrictions, audit logging",
+                "PCI DSS: CDE segmentation, quarterly scans"
+            ]
+        },
+        {
+            "category": "Testing & Assurance",
+            "items": [
+                "Regular penetration tests (internal & external)",
+                "Automated CI/CD security scanning",
+                "Incident response playbooks & exercises",
+                "Third-party audits for ISO 27001 / SOC 2"
+            ]
+        }
+    ],
+    "stakeholders": [
+        {
+            "role": "Compliance Lead",
+            "responsibility": "Coordinate audits, manage documentation"
+        },
+        {
+            "role": "Security Engineering",
+            "responsibility": "Implement encryption, IAM, hardening"
+        },
+        {
+            "role": "DevOps / Platform Team",
+            "responsibility": "CI/CD security integration, monitoring"
+        },
+        {
+            "role": "Legal / DPO",
+            "responsibility": "GDPR, HIPAA oversight"
+        },
+        {
+            "role": "Executive Sponsor",
+            "responsibility": "Secure budget and drive roadmap"
+        }
+    ],
+    "nextSteps": [
+        "Select primary compliance frameworks (GDPR + HIPAA baseline)",
+        "Perform gap analysis against current NStarX architecture",
+        "Establish compliance matrix: requirement → control → status",
+        "Implement Phase 1 controls immediately",
+        "Schedule third-party assessment within 6 months"
+    ],
+    "glossary": [
+        {
+            "term": "GDPR",
+            "definition": "General Data Protection Regulation - European Union regulation on data protection and privacy for individuals within the EU and European Economic Area"
+        },
+        {
+            "term": "HIPAA",
+            "definition": "Health Insurance Portability and Accountability Act - US federal law that provides data privacy and security provisions for safeguarding medical information"
+        },
+        {
+            "term": "PHI",
+            "definition": "Protected Health Information - Any information about health status, healthcare provision, or payment that can be linked to an individual"
+        },
+        {
+            "term": "PCI DSS",
+            "definition": "Payment Card Industry Data Security Standard - Information security standard for organizations that handle branded credit cards"
+        },
+        {
+            "term": "ISO/IEC 27001",
+            "definition": "International Organization for Standardization standard that provides requirements for an information security management system (ISMS)"
+        },
+        {
+            "term": "SOC 2",
+            "definition": "Service Organization Control 2 - Auditing procedure that ensures service providers securely manage data to protect interests and privacy of clients"
+        },
+        {
+            "term": "FedRAMP",
+            "definition": "Federal Risk and Authorization Management Program - US government-wide compliance program for cloud products and services"
+        },
+        {
+            "term": "DoD SRG",
+            "definition": "Department of Defense Security Requirements Guide - Guidelines for cloud service providers supporting DoD missions"
+        },
+        {
+            "term": "RBAC",
+            "definition": "Role-Based Access Control - Method of restricting system access to authorized users based on their role within an organization"
+        },
+        {
+            "term": "IAM",
+            "definition": "Identity and Access Management - Framework of policies and technologies ensuring the right individuals access the right resources"
+        },
+        {
+            "term": "MFA",
+            "definition": "Multi-Factor Authentication - Security system requiring multiple methods of authentication from independent categories of credentials"
+        },
+        {
+            "term": "SIEM",
+            "definition": "Security Information and Event Management - Software that provides real-time analysis of security alerts generated by applications and network hardware"
+        },
+        {
+            "term": "KMS",
+            "definition": "Key Management Service - Cloud service that helps create and manage cryptographic keys and control their use across applications"
+        },
+        {
+            "term": "HSM",
+            "definition": "Hardware Security Module - Physical computing device that safeguards and manages digital keys for strong authentication"
+        },
+        {
+            "term": "TLS",
+            "definition": "Transport Layer Security - Cryptographic protocol designed to provide communications security over a computer network"
+        },
+        {
+            "term": "AES-256",
+            "definition": "Advanced Encryption Standard with 256-bit key - Symmetric encryption algorithm widely adopted as the encryption standard by the US government"
+        },
+        {
+            "term": "FIPS 140-2/3",
+            "definition": "Federal Information Processing Standards - US government computer security standards for cryptographic modules"
+        },
+        {
+            "term": "CIS",
+            "definition": "Center for Internet Security - Non-profit organization that develops security benchmarks and best practices"
+        },
+        {
+            "term": "CVE",
+            "definition": "Common Vulnerabilities and Exposures - List of publicly disclosed computer security flaws"
+        },
+        {
+            "term": "CDE",
+            "definition": "Cardholder Data Environment - Network segment where cardholder data is stored, processed, or transmitted"
+        },
+        {
+            "term": "DPO",
+            "definition": "Data Protection Officer - Enterprise security leadership role required by GDPR for organizations that process EU citizens' data"
+        },
+        {
+            "term": "SAST",
+            "definition": "Static Application Security Testing - Testing methodology that analyzes source code to find security vulnerabilities"
+        },
+        {
+            "term": "DAST",
+            "definition": "Dynamic Application Security Testing - Testing process that analyzes running applications for security vulnerabilities"
+        },
+        {
+            "term": "CI/CD",
+            "definition": "Continuous Integration/Continuous Deployment - Method to frequently deliver apps by introducing automation into app development stages"
+        },
+        {
+            "term": "NIST",
+            "definition": "National Institute of Standards and Technology - US federal agency that develops technology, metrics, and standards"
+        }
+    ]
+}
