@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         :root {
             --primary-color: #6464B4;
@@ -553,6 +554,190 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 24px;
             margin-bottom: 48px;
+        }
+        
+        .diagram-container {
+            background: var(--background-white);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 48px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            overflow-x: auto;
+        }
+        
+        .diagram-container h2 {
+            color: var(--text-dark);
+            margin-bottom: 32px;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            transform-origin: center center;
+            transition: transform 0.3s ease;
+        }
+        
+        .diagram-wrapper {
+            position: relative;
+            overflow: auto;
+            border-radius: 16px;
+            background: var(--background-light);
+            padding: 20px;
+            cursor: grab;
+        }
+        
+        .diagram-wrapper.dragging {
+            cursor: grabbing;
+        }
+        
+        .diagram-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 10;
+        }
+        
+        .zoom-controls, .pan-controls {
+            display: flex;
+            gap: 4px;
+            background: var(--background-white);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            opacity: 0.9;
+        }
+        
+        .pan-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2px;
+            padding: 6px;
+            width: fit-content;
+        }
+        
+        .zoom-btn, .pan-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--background-light);
+            color: var(--text-dark);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .pan-btn {
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+        }
+        
+        .pan-btn.pan-center {
+            grid-column: 2;
+            grid-row: 2;
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .pan-btn.pan-up {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .pan-btn.pan-down {
+            grid-column: 2;
+            grid-row: 3;
+        }
+        
+        .pan-btn.pan-left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .pan-btn.pan-right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        
+        .zoom-btn:hover, .pan-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .pan-btn.pan-center:hover {
+            background: var(--accent-color);
+        }
+        
+        .zoom-btn:active, .pan-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .zoom-btn.zoom-reset {
+            font-size: 11px;
+            width: auto;
+            padding: 0 8px;
+        }
+        
+        .zoom-level {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: var(--background-white);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-gray);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            opacity: 0.8;
+        }
+        
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+        
+        .diagram-card {
+            background: var(--background-white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            transition: all var(--transition-medium);
+        }
+        
+        .diagram-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .diagram-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
         }
         
         .stat-card {
@@ -1154,6 +1339,61 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            .diagram-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .diagram-container {
+                padding: 24px;
+            }
+            
+            .diagram-card {
+                padding: 24px;
+            }
+            
+            .mermaid {
+                overflow-x: auto;
+                max-width: 100%;
+            }
+            
+            .diagram-controls {
+                top: 8px;
+                right: 8px;
+                gap: 4px;
+            }
+            
+            .zoom-controls, .pan-controls {
+                padding: 4px;
+            }
+            
+            .zoom-btn, .pan-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+            
+            .pan-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+            }
+            
+            .pan-controls {
+                gap: 2px;
+            }
+            
+            .zoom-btn.zoom-reset {
+                font-size: 10px;
+                padding: 0 6px;
+            }
+            
+            .zoom-level {
+                bottom: 8px;
+                right: 8px;
+                font-size: 9px;
+                padding: 3px 6px;
+            }
         }
     </style>
 </head>
@@ -1210,6 +1450,70 @@
             </div>
         </div>
         
+        <div class="diagram-container">
+            <h2>Compliance Framework Overview</h2>
+            <div class="diagram-wrapper" id="framework-diagram-wrapper">
+                <div class="diagram-controls">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomDiagram('framework-diagram', 'out')" title="Zoom Out">−</button>
+                        <button class="zoom-btn zoom-reset" onclick="resetZoom('framework-diagram')" title="Reset Zoom">100%</button>
+                        <button class="zoom-btn" onclick="zoomDiagram('framework-diagram', 'in')" title="Zoom In">+</button>
+                    </div>
+                    <div class="pan-controls">
+                        <button class="pan-btn pan-up" onclick="panDiagram('framework-diagram', 'up')" title="Pan Up">↑</button>
+                        <button class="pan-btn pan-left" onclick="panDiagram('framework-diagram', 'left')" title="Pan Left">←</button>
+                        <button class="pan-btn pan-center" onclick="centerDiagram('framework-diagram')" title="Center">⊙</button>
+                        <button class="pan-btn pan-right" onclick="panDiagram('framework-diagram', 'right')" title="Pan Right">→</button>
+                        <button class="pan-btn pan-down" onclick="panDiagram('framework-diagram', 'down')" title="Pan Down">↓</button>
+                    </div>
+                </div>
+                <div class="zoom-level" id="framework-diagram-zoom">100%</div>
+                <div class="mermaid" id="framework-diagram" data-zoom="1" data-pan-x="0" data-pan-y="0">
+                graph TB
+                    A[NStarX Platform] --> B{Compliance Frameworks}
+                    B --> C[GDPR]
+                    B --> D[HIPAA]
+                    B --> E[PCI DSS]
+                    B --> F[ISO 27001]
+                    B --> G[SOC 2]
+                    B --> H[FedRAMP]
+                    
+                    C --> C1[EU Data Protection]
+                    C --> C2[Privacy by Design]
+                    C --> C3[User Rights]
+                    
+                    D --> D1[Healthcare Data]
+                    D --> D2[PHI Protection]
+                    D --> D3[Security Rules]
+                    
+                    E --> E1[Payment Security]
+                    E --> E2[Card Data Protection]
+                    E --> E3[Network Security]
+                    
+                    F --> F1[Info Security]
+                    F --> F2[Risk Management]
+                    F --> F3[Continuous Improvement]
+                    
+                    G --> G1[Service Organization]
+                    G --> G2[Trust Principles]
+                    G --> G3[Audit Reports]
+                    
+                    H --> H1[Government Cloud]
+                    H --> H2[Security Controls]
+                    H --> H3[Authorization Process]
+                    
+                    style A fill:#6464B4,stroke:#fff,stroke-width:3px,color:#fff
+                    style B fill:#8CB428,stroke:#fff,stroke-width:2px,color:#fff
+                    style C fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px
+                    style D fill:#E3F2FD,stroke:#2196F3,stroke-width:2px
+                    style E fill:#FFF3E0,stroke:#FF9800,stroke-width:2px
+                    style F fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px
+                    style G fill:#FCE4EC,stroke:#E91E63,stroke-width:2px
+                    style H fill:#E0F2F1,stroke:#009688,stroke-width:2px
+                </div>
+            </div>
+        </div>
+        
         <div id="phases" class="phase-timeline">
             <h2>Implementation Phases</h2>
             <div class="timeline" id="timeline"></div>
@@ -1218,6 +1522,197 @@
         <div id="requirements" class="phase-timeline">
             <h2>Compliance Requirements</h2>
             <div class="requirements-grid" id="requirements-grid"></div>
+        </div>
+        
+        <div class="diagram-container">
+            <h2>Compliance Journey</h2>
+            <div class="diagram-wrapper" id="compliance-journey-wrapper">
+                    <div class="diagram-controls">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" onclick="zoomDiagram('compliance-journey', 'out')" title="Zoom Out">−</button>
+                            <button class="zoom-btn zoom-reset" onclick="resetZoom('compliance-journey')" title="Reset Zoom">100%</button>
+                            <button class="zoom-btn" onclick="zoomDiagram('compliance-journey', 'in')" title="Zoom In">+</button>
+                        </div>
+                        <div class="pan-controls">
+                            <button class="pan-btn pan-up" onclick="panDiagram('compliance-journey', 'up')" title="Pan Up">↑</button>
+                            <button class="pan-btn pan-left" onclick="panDiagram('compliance-journey', 'left')" title="Pan Left">←</button>
+                            <button class="pan-btn pan-center" onclick="centerDiagram('compliance-journey')" title="Center">⊙</button>
+                            <button class="pan-btn pan-right" onclick="panDiagram('compliance-journey', 'right')" title="Pan Right">→</button>
+                            <button class="pan-btn pan-down" onclick="panDiagram('compliance-journey', 'down')" title="Pan Down">↓</button>
+                        </div>
+                    </div>
+                    <div class="zoom-level" id="compliance-journey-zoom">100%</div>
+                    <div class="mermaid" id="compliance-journey" data-zoom="1" data-pan-x="0" data-pan-y="0">
+                    graph LR
+                        subgraph Assessment ["📋 Assessment Phase"]
+                            A1[Gap Analysis<br/>⭐⭐⭐⭐⭐<br/>CISO, Dev Team]
+                            A2[Risk Assessment<br/>⭐⭐⭐⭐<br/>CISO, Compliance]
+                            A3[Requirements Mapping<br/>⭐⭐⭐<br/>Compliance, Legal]
+                        end
+                        
+                        subgraph Planning ["📐 Planning Phase"]
+                            P1[Roadmap Creation<br/>⭐⭐⭐⭐⭐<br/>CISO, CTO]
+                            P2[Resource Allocation<br/>⭐⭐⭐<br/>CFO, CISO]
+                            P3[Timeline Definition<br/>⭐⭐⭐⭐<br/>PM, CISO]
+                        end
+                        
+                        subgraph Implementation ["🔧 Implementation Phase"]
+                            I1[Technical Controls<br/>⭐⭐⭐⭐<br/>Dev Team, DevOps]
+                            I2[Process Updates<br/>⭐⭐⭐<br/>Compliance, Operations]
+                            I3[Documentation<br/>⭐⭐<br/>Compliance, Legal]
+                        end
+                        
+                        subgraph Validation ["✅ Validation Phase"]
+                            V1[Internal Audit<br/>⭐⭐⭐⭐<br/>Compliance, CISO]
+                            V2[External Assessment<br/>⭐⭐⭐⭐⭐<br/>Auditor, CISO]
+                            V3[Certification<br/>⭐⭐⭐⭐⭐<br/>All Teams]
+                        end
+                        
+                        A1 --> A2 --> A3 --> P1
+                        P1 --> P2 --> P3 --> I1
+                        I1 --> I2 --> I3 --> V1
+                        V1 --> V2 --> V3
+                        
+                        style Assessment fill:#E3F2FD,stroke:#2196F3,stroke-width:2px
+                        style Planning fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px
+                        style Implementation fill:#FFF3E0,stroke:#FF9800,stroke-width:2px
+                        style Validation fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px
+                        
+                        style A1 fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+                        style A2 fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+                        style A3 fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+                        
+                        style P1 fill:#E1BEE7,stroke:#8E24AA,stroke-width:2px
+                        style P2 fill:#E1BEE7,stroke:#8E24AA,stroke-width:2px
+                        style P3 fill:#E1BEE7,stroke:#8E24AA,stroke-width:2px
+                        
+                        style I1 fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+                        style I2 fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+                        style I3 fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+                        
+                        style V1 fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+                        style V2 fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+                        style V3 fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+                    </div>
+                </div>
+        </div>
+        
+        <div class="diagram-container">
+            <h2>Requirements Priority Matrix</h2>
+            <div class="diagram-wrapper" id="priority-matrix-wrapper">
+                <div class="diagram-controls">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomDiagram('priority-matrix', 'out')" title="Zoom Out">−</button>
+                        <button class="zoom-btn zoom-reset" onclick="resetZoom('priority-matrix')" title="Reset Zoom">100%</button>
+                        <button class="zoom-btn" onclick="zoomDiagram('priority-matrix', 'in')" title="Zoom In">+</button>
+                    </div>
+                    <div class="pan-controls">
+                        <button class="pan-btn pan-up" onclick="panDiagram('priority-matrix', 'up')" title="Pan Up">↑</button>
+                        <button class="pan-btn pan-left" onclick="panDiagram('priority-matrix', 'left')" title="Pan Left">←</button>
+                        <button class="pan-btn pan-center" onclick="centerDiagram('priority-matrix')" title="Center">⊙</button>
+                        <button class="pan-btn pan-right" onclick="panDiagram('priority-matrix', 'right')" title="Pan Right">→</button>
+                        <button class="pan-btn pan-down" onclick="panDiagram('priority-matrix', 'down')" title="Pan Down">↓</button>
+                    </div>
+                </div>
+                <div class="zoom-level" id="priority-matrix-zoom">100%</div>
+                <div class="mermaid" id="priority-matrix" data-zoom="1" data-pan-x="0" data-pan-y="0">
+                quadrantChart
+                    title Requirements Implementation Priority
+                    x-axis Low Complexity --> High Complexity
+                    y-axis Low Impact --> High Impact
+                    quadrant-1 Quick Wins
+                    quadrant-2 Strategic Projects
+                    quadrant-3 Fill Ins
+                    quadrant-4 Complex Tasks
+                    Data Encryption: [0.3, 0.9]
+                    Access Controls: [0.2, 0.8]
+                    Audit Logging: [0.4, 0.7]
+                    Incident Response: [0.6, 0.8]
+                    Risk Assessment: [0.7, 0.9]
+                    Vendor Management: [0.5, 0.5]
+                    Training Program: [0.3, 0.6]
+                    Policy Documentation: [0.2, 0.4]
+                    Penetration Testing: [0.8, 0.7]
+                    Disaster Recovery: [0.9, 0.9]
+                </div>
+            </div>
+        </div>
+        
+        <div class="diagram-container">
+            <h2>Compliance Requirements Architecture</h2>
+            <div class="diagram-wrapper" id="requirements-arch-wrapper">
+                <div class="diagram-controls">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomDiagram('requirements-arch', 'out')" title="Zoom Out">−</button>
+                        <button class="zoom-btn zoom-reset" onclick="resetZoom('requirements-arch')" title="Reset Zoom">100%</button>
+                        <button class="zoom-btn" onclick="zoomDiagram('requirements-arch', 'in')" title="Zoom In">+</button>
+                    </div>
+                    <div class="pan-controls">
+                        <button class="pan-btn pan-up" onclick="panDiagram('requirements-arch', 'up')" title="Pan Up">↑</button>
+                        <button class="pan-btn pan-left" onclick="panDiagram('requirements-arch', 'left')" title="Pan Left">←</button>
+                        <button class="pan-btn pan-center" onclick="centerDiagram('requirements-arch')" title="Center">⊙</button>
+                        <button class="pan-btn pan-right" onclick="panDiagram('requirements-arch', 'right')" title="Pan Right">→</button>
+                        <button class="pan-btn pan-down" onclick="panDiagram('requirements-arch', 'down')" title="Pan Down">↓</button>
+                    </div>
+                </div>
+                <div class="zoom-level" id="requirements-arch-zoom">100%</div>
+                <div class="mermaid" id="requirements-arch" data-zoom="1" data-pan-x="0" data-pan-y="0">
+                flowchart LR
+                    subgraph Technical[Technical Requirements]
+                        T1[Encryption at Rest]
+                        T2[Encryption in Transit]
+                        T3[Access Management]
+                        T4[Network Security]
+                        T5[Vulnerability Management]
+                        T6[Secure Development]
+                    end
+                    
+                    subgraph Operational[Operational Requirements]
+                        O1[Incident Response]
+                        O2[Change Management]
+                        O3[Asset Management]
+                        O4[Vendor Management]
+                        O5[Business Continuity]
+                        O6[Disaster Recovery]
+                    end
+                    
+                    subgraph Administrative[Administrative Requirements]
+                        A1[Policies & Procedures]
+                        A2[Training & Awareness]
+                        A3[Risk Management]
+                        A4[Audit & Monitoring]
+                        A5[Documentation]
+                        A6[Compliance Reporting]
+                    end
+                    
+                    subgraph Physical[Physical Security]
+                        P1[Data Center Security]
+                        P2[Environmental Controls]
+                        P3[Physical Access]
+                        P4[Media Protection]
+                    end
+                    
+                    Technical --> Core[Core Platform Security]
+                    Operational --> Core
+                    Administrative --> Core
+                    Physical --> Core
+                    
+                    Core --> Compliance[Compliance Achievement]
+                    
+                    Compliance --> GDPR[GDPR Ready]
+                    Compliance --> HIPAA[HIPAA Ready]
+                    Compliance --> PCI[PCI DSS Ready]
+                    Compliance --> ISO[ISO 27001 Ready]
+                    Compliance --> SOC2[SOC 2 Ready]
+                    
+                    style Core fill:#6464B4,stroke:#fff,stroke-width:3px,color:#fff
+                    style Compliance fill:#8CB428,stroke:#fff,stroke-width:3px,color:#fff
+                    style Technical fill:#E3F2FD,stroke:#2196F3,stroke-width:2px
+                    style Operational fill:#FFF3E0,stroke:#FF9800,stroke-width:2px
+                    style Administrative fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px
+                    style Physical fill:#E0F2F1,stroke:#009688,stroke-width:2px
+                </div>
+            </div>
         </div>
         
         <div id="ai-services" class="ai-services-section">
@@ -1472,6 +1967,201 @@
             navMenu.classList.toggle('active');
         }
         
+        // Zoom and Pan functionality for diagrams
+        const diagramStates = {};
+        
+        function initDiagramState(diagramId) {
+            if (!diagramStates[diagramId]) {
+                diagramStates[diagramId] = {
+                    zoom: 1,
+                    panX: 0,
+                    panY: 0
+                };
+            }
+        }
+        
+        function updateDiagramTransform(diagramId) {
+            const diagram = document.getElementById(diagramId);
+            const state = diagramStates[diagramId];
+            diagram.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+        }
+        
+        function zoomDiagram(diagramId, direction) {
+            initDiagramState(diagramId);
+            const diagram = document.getElementById(diagramId);
+            const zoomLabel = document.getElementById(diagramId + '-zoom');
+            const state = diagramStates[diagramId];
+            
+            const zoomStep = 0.1;
+            const minZoom = 0.5;
+            const maxZoom = 2.5;
+            
+            if (direction === 'in' && state.zoom < maxZoom) {
+                state.zoom += zoomStep;
+            } else if (direction === 'out' && state.zoom > minZoom) {
+                state.zoom -= zoomStep;
+            }
+            
+            state.zoom = Math.round(state.zoom * 10) / 10;
+            
+            updateDiagramTransform(diagramId);
+            diagram.setAttribute('data-zoom', state.zoom);
+            
+            if (zoomLabel) {
+                zoomLabel.textContent = `${Math.round(state.zoom * 100)}%`;
+            }
+            
+            // Update reset button text
+            const resetBtn = diagram.closest('.diagram-wrapper').querySelector('.zoom-reset');
+            if (resetBtn) {
+                resetBtn.textContent = `${Math.round(state.zoom * 100)}%`;
+            }
+        }
+        
+        function panDiagram(diagramId, direction) {
+            initDiagramState(diagramId);
+            const diagram = document.getElementById(diagramId);
+            const state = diagramStates[diagramId];
+            const panStep = 50;
+            
+            switch(direction) {
+                case 'up':
+                    state.panY += panStep;
+                    break;
+                case 'down':
+                    state.panY -= panStep;
+                    break;
+                case 'left':
+                    state.panX += panStep;
+                    break;
+                case 'right':
+                    state.panX -= panStep;
+                    break;
+            }
+            
+            updateDiagramTransform(diagramId);
+            diagram.setAttribute('data-pan-x', state.panX);
+            diagram.setAttribute('data-pan-y', state.panY);
+        }
+        
+        function centerDiagram(diagramId) {
+            initDiagramState(diagramId);
+            const diagram = document.getElementById(diagramId);
+            const state = diagramStates[diagramId];
+            
+            state.panX = 0;
+            state.panY = 0;
+            
+            updateDiagramTransform(diagramId);
+            diagram.setAttribute('data-pan-x', '0');
+            diagram.setAttribute('data-pan-y', '0');
+        }
+        
+        function resetZoom(diagramId) {
+            initDiagramState(diagramId);
+            const diagram = document.getElementById(diagramId);
+            const zoomLabel = document.getElementById(diagramId + '-zoom');
+            const state = diagramStates[diagramId];
+            
+            state.zoom = 1;
+            state.panX = 0;
+            state.panY = 0;
+            
+            updateDiagramTransform(diagramId);
+            diagram.setAttribute('data-zoom', '1');
+            diagram.setAttribute('data-pan-x', '0');
+            diagram.setAttribute('data-pan-y', '0');
+            
+            if (zoomLabel) {
+                zoomLabel.textContent = '100%';
+            }
+            
+            // Update reset button text
+            const resetBtn = diagram.closest('.diagram-wrapper').querySelector('.zoom-reset');
+            if (resetBtn) {
+                resetBtn.textContent = '100%';
+            }
+        }
+        
+        // Drag to pan functionality
+        function enableDragToPan(wrapperId, diagramId) {
+            const wrapper = document.getElementById(wrapperId);
+            const diagram = document.getElementById(diagramId);
+            let isDragging = false;
+            let startX, startY;
+            let initialPanX, initialPanY;
+            
+            wrapper.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.diagram-controls')) return;
+                
+                initDiagramState(diagramId);
+                isDragging = true;
+                wrapper.classList.add('dragging');
+                startX = e.clientX;
+                startY = e.clientY;
+                initialPanX = diagramStates[diagramId].panX;
+                initialPanY = diagramStates[diagramId].panY;
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const state = diagramStates[diagramId];
+                state.panX = initialPanX + (e.clientX - startX);
+                state.panY = initialPanY + (e.clientY - startY);
+                
+                updateDiagramTransform(diagramId);
+                diagram.setAttribute('data-pan-x', state.panX);
+                diagram.setAttribute('data-pan-y', state.panY);
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    wrapper.classList.remove('dragging');
+                }
+            });
+        }
+        
+        // Add keyboard shortcuts for zoom and pan
+        document.addEventListener('keydown', function(e) {
+            const activeDiagram = document.querySelector('.mermaid:hover');
+            if (activeDiagram && activeDiagram.id) {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === '+' || e.key === '=') {
+                        e.preventDefault();
+                        zoomDiagram(activeDiagram.id, 'in');
+                    } else if (e.key === '-' || e.key === '_') {
+                        e.preventDefault();
+                        zoomDiagram(activeDiagram.id, 'out');
+                    } else if (e.key === '0') {
+                        e.preventDefault();
+                        resetZoom(activeDiagram.id);
+                    }
+                } else if (e.key.startsWith('Arrow')) {
+                    e.preventDefault();
+                    switch(e.key) {
+                        case 'ArrowUp':
+                            panDiagram(activeDiagram.id, 'up');
+                            break;
+                        case 'ArrowDown':
+                            panDiagram(activeDiagram.id, 'down');
+                            break;
+                        case 'ArrowLeft':
+                            panDiagram(activeDiagram.id, 'left');
+                            break;
+                        case 'ArrowRight':
+                            panDiagram(activeDiagram.id, 'right');
+                            break;
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    centerDiagram(activeDiagram.id);
+                }
+            }
+        });
+        
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1516,7 +2206,74 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Mermaid
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: 'default',
+                themeVariables: {
+                    primaryColor: '#6464B4',
+                    primaryTextColor: '#141428',
+                    primaryBorderColor: '#6464B4',
+                    lineColor: '#8CB428',
+                    secondaryColor: '#8CB428',
+                    tertiaryColor: '#FAFAFA',
+                    background: '#FFFFFF',
+                    mainBkg: '#6464B4',
+                    secondBkg: '#8CB428',
+                    tertiaryBkg: '#FAFAFA',
+                    primaryBorderColor: '#6464B4',
+                    secondaryBorderColor: '#8CB428',
+                    tertiaryBorderColor: '#E2E8F0',
+                    primaryTextColor: '#FFFFFF',
+                    secondaryTextColor: '#141428',
+                    tertiaryTextColor: '#4A5568',
+                    lineColor: '#718096',
+                    textColor: '#141428',
+                    mainContrastColor: '#FFFFFF',
+                    darkMode: false,
+                    fontFamily: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    fontSize: '14px',
+                    labelBackground: '#FAFAFA',
+                    nodeTextColor: '#141428'
+                },
+                flowchart: {
+                    htmlLabels: true,
+                    curve: 'basis',
+                    padding: 20
+                },
+                journey: {
+                    diagramMarginX: 50,
+                    diagramMarginY: 10,
+                    actorMargin: 50,
+                    width: 150,
+                    height: 50,
+                    boxMargin: 10,
+                    boxTextMargin: 5,
+                    noteMargin: 10,
+                    messageMargin: 35
+                },
+                quadrantChart: {
+                    chartWidth: 500,
+                    chartHeight: 400,
+                    titleFontSize: 16,
+                    titlePadding: 10,
+                    quadrantPadding: 5,
+                    xAxisLabelPadding: 5,
+                    yAxisLabelPadding: 5,
+                    pointRadius: 5,
+                    pointLabelFontSize: 12
+                }
+            });
+            
             loadComplianceData();
+            
+            // Initialize drag-to-pan for all diagrams
+            setTimeout(() => {
+                enableDragToPan('framework-diagram-wrapper', 'framework-diagram');
+                enableDragToPan('priority-matrix-wrapper', 'priority-matrix');
+                enableDragToPan('compliance-journey-wrapper', 'compliance-journey');
+                enableDragToPan('requirements-arch-wrapper', 'requirements-arch');
+            }, 1000);
         });
     </script>
 </body>
