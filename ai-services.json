@@ -1,0 +1,108 @@
+{
+    "title": "How AI Services Access and Send Code",
+    "subtitle": "Understanding data flow and security implications for code assistance tools",
+    "services": [
+        {
+            "name": "GitHub Copilot",
+            "provider": "Microsoft / OpenAI",
+            "dataHandling": [
+                "Code sent to Microsoft servers for inference",
+                "Copilot for Business offers limited data retention",
+                "Snippets transmitted by default; full files not automatically sent",
+                "Telemetry shared unless explicitly disabled"
+            ],
+            "enterpriseOption": "Copilot for Business",
+            "cost": "$19-39 per user/month",
+            "airGapped": false
+        },
+        {
+            "name": "Claude Code",
+            "provider": "Anthropic",
+            "dataHandling": [
+                "Local CLI/IDE plugin sends prompts + code to Anthropic API",
+                "Open-source wrappers can route through company proxy",
+                "No fully offline model available",
+                "Enterprise mode available with controlled routing"
+            ],
+            "enterpriseOption": "Claude for Teams/Enterprise",
+            "cost": "$30-60 per seat/month",
+            "airGapped": false
+        },
+        {
+            "name": "Google Gemini Code Assist",
+            "provider": "Google",
+            "dataHandling": [
+                "Cloud-first: code snippets sent to Google servers",
+                "Workspace/Cloud versions have stricter agreements",
+                "Data not used for training in enterprise plans",
+                "No offline models for coding currently"
+            ],
+            "enterpriseOption": "Gemini for Business",
+            "cost": "$20-30 per seat/month",
+            "airGapped": false
+        },
+        {
+            "name": "OpenAI ChatGPT/o1",
+            "provider": "OpenAI",
+            "dataHandling": [
+                "Context and code sent to OpenAI API",
+                "Enterprise: no training on company data",
+                "Encrypted transit/storage, SOC2/ISO compliant",
+                "Requires internet unless self-hosting alternatives"
+            ],
+            "enterpriseOption": "ChatGPT Enterprise",
+            "cost": "$25-50 per seat/month (negotiated)",
+            "airGapped": false
+        }
+    ],
+    "airGappedOptions": {
+        "title": "Air-Gapped & Self-Hosted Alternatives",
+        "description": "For environments requiring complete data isolation",
+        "solutions": [
+            {
+                "name": "Self-Hosted OSS Models",
+                "models": ["CodeLlama 34B", "StarCoder2", "DeepSeek-Coder 33B", "Qwen-Coder"],
+                "deployment": "VMs or Kubernetes clusters",
+                "benefits": ["No external data exfiltration", "Total control", "No vendor lock-in"],
+                "cost": "$3-10k/month infrastructure for 50-person team"
+            },
+            {
+                "name": "Enterprise Compromise Solutions",
+                "options": [
+                    "API gateways to redact sensitive data",
+                    "Company-controlled proxy servers",
+                    "Contractual no-training agreements",
+                    "Data residency controls"
+                ]
+            }
+        ]
+    },
+    "complianceConsiderations": [
+        {
+            "framework": "GDPR",
+            "concerns": ["Data transfer outside EU", "Right to deletion", "Data minimization"],
+            "mitigation": "Use enterprise agreements with EU data residency"
+        },
+        {
+            "framework": "HIPAA",
+            "concerns": ["PHI in code comments", "Audit trail requirements", "Access controls"],
+            "mitigation": "Self-hosted solutions or BAA agreements"
+        },
+        {
+            "framework": "SOC 2",
+            "concerns": ["Third-party risk", "Data encryption", "Access logging"],
+            "mitigation": "Choose SOC 2 certified providers"
+        },
+        {
+            "framework": "ISO 27001",
+            "concerns": ["Information security management", "Risk assessment", "Supplier relationships"],
+            "mitigation": "Vendor security assessments and controls"
+        }
+    ],
+    "keyTakeaways": [
+        "None of the big 4 (Claude, Copilot, Gemini, OpenAI) offer true offline air-gap today",
+        "Enterprise plans offer 'no-training + secure cloud' as standard",
+        "True air-gapped coding requires self-hosted OSS models",
+        "Costs: ~$20-50/user/month for SaaS; $100k+/year for on-prem infrastructure"
+    ]
+}
